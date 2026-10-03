@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tap Counter</title>
+<title>Lene's Magic Test App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500;700&family=Instrument+Sans:wght@500;600&display=swap" rel="stylesheet">
@@ -100,6 +100,11 @@
     font-variant-numeric: tabular-nums;
     display: inline-block;
   }
+  .label {
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
   .count.bump { animation: bump 160ms ease-out; }
   @keyframes bump {
     0% { transform: translateY(-6px); opacity: 0.6; }
@@ -111,7 +116,7 @@
     min-height: 180px;
     font: inherit;
     font-family: "Azeret Mono", ui-monospace, Menlo, monospace;
-    font-size: 4rem;
+    font-size: 3.25rem;
     font-weight: 500;
     color: var(--on-cobalt);
     background: var(--cobalt);
@@ -159,17 +164,18 @@
 <body>
   <main class="app">
     <div class="top">
-      <h1>Tap Counter</h1>
-      <button class="reset" id="reset" type="button">Reset</button>
+      <h1>Lene's Magic Test App</h1>
+      <button class="reset" id="reset" type="button">Poof!</button>
     </div>
 
     <div class="window">
       <span class="count" id="count" aria-live="polite">0</span>
+      <p class="label" id="label">spells cast</p>
     </div>
 
-    <button class="tap" id="tap" type="button" aria-label="Add one">+</button>
-    <button class="minus" id="minus" type="button">Take one away</button>
-    <p class="hint">Press the space bar to add one.</p>
+    <button class="tap" id="tap" type="button" aria-label="Cast a spell">+1 ✨</button>
+    <button class="minus" id="minus" type="button">Oops, un-cast one</button>
+    <p class="hint">Psst: the space bar works as a magic wand too.</p>
   </main>
 
 <script>
@@ -178,6 +184,7 @@
   const tapBtn = document.getElementById("tap");
   const minusBtn = document.getElementById("minus");
   const resetBtn = document.getElementById("reset");
+  const labelEl = document.getElementById("label");
 
   let count = 0;
   try {
@@ -188,6 +195,7 @@
   function render(animate) {
     countEl.textContent = count.toLocaleString();
     minusBtn.disabled = count === 0;
+    labelEl.textContent = count === 1 ? "spell cast" : "spells cast";
     if (animate) {
       countEl.classList.remove("bump");
       void countEl.offsetWidth;
@@ -208,7 +216,7 @@
   });
   resetBtn.addEventListener("click", () => {
     if (count === 0) return;
-    if (confirm("Reset the count to 0?")) { count = 0; render(true); }
+    if (confirm("Make all your spells vanish into thin air?")) { count = 0; render(true); }
   });
 
   document.addEventListener("keydown", (e) => {
